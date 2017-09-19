@@ -31,10 +31,10 @@ export class ProfileComponent implements OnInit {
   }
 
   validateFirstName(){
-    return this.profileForm.controls.firstName.invalid && this.profileForm.controls.firstName.touched;
+    return this.profileForm.get('firstName').invalid && this.profileForm.get('firstName').touched;
   }
   validateLastName(){
-    return this.profileForm.controls.lastName.valid || this.profileForm.controls.lastName.untouched
+    return this.profileForm.get('lastName').valid || this.profileForm.get('lastName').untouched
   }
   saveProfile(formValues){
      if(this.profileForm.valid){

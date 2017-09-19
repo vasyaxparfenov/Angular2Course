@@ -1,3 +1,4 @@
+import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './user/auth.srevice';
 
@@ -21,13 +22,14 @@ import {
     EventService, 
     CreateEventComponent,
     CreateSessionComponent,
-    SessionListComponent
+    SessionListComponent,
+    DurationPipe
 } from './events/index'
 
 @NgModule({
     imports:[BrowserModule, RouterModule.forRoot(appRoutes), FormsModule, ReactiveFormsModule],
     declarations:[EventsAppComponent, EventsListComponent, EventThumbnailComponent, NavBarComponent, EventDetailsComponent, CreateEventComponent, 
-        Error404Component, CreateSessionComponent, SessionListComponent],
+        Error404Component, CreateSessionComponent, SessionListComponent, CollapsibleWellComponent, DurationPipe],
     providers : [EventService, ToastrService, EventRouteActivator, EventListResolver, AuthService,
         { 
             provide:'canDeactivateCreateEvent', 

@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operator/filter';
 import { IEvent, ISession } from '../shared/event.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
@@ -15,6 +16,8 @@ import { EventService } from "../shared/event.service";
 export class EventDetailsComponent implements OnInit{
     addMode: boolean;
     event: IEvent;
+    filterBy:string = 'all';
+    sortBy:string = 'names';
     constructor(private eventService:EventService, private activatedRoute:ActivatedRoute){
         
     }
