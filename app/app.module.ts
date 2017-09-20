@@ -1,3 +1,4 @@
+import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './user/auth.srevice';
 
@@ -5,7 +6,7 @@ import { AuthService } from './user/auth.srevice';
 import { Error404Component } from './error/404.components';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core'
-import {BrowserModule } from '@angular/platform-browser'
+import { BrowserModule } from '@angular/platform-browser'
 import { appRoutes } from './routes';
 
 import {EventsAppComponent} from './events-app.component'
@@ -37,7 +38,8 @@ declare let jQuery:Object;
         BrowserModule, 
         RouterModule.forRoot(appRoutes), 
         FormsModule, 
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpModule
     ],
     declarations: [
         EventsAppComponent,

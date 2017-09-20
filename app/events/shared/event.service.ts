@@ -1,3 +1,5 @@
+import { error } from 'util';
+import { Http, Response } from '@angular/http';
 import { IEvent, ISession } from './event.model';
 import { Observable, Subject } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -6,35 +8,43 @@ import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 export class EventService {
-    getEvents():Observable<IEvent[]>{
-        let subject = new Subject<IEvent[]>();
-        setTimeout(()=>{subject.next(EVENTS); subject.complete();},1)
-        return subject;
-    }
-    getEvent(id:number):IEvent{
-        return EVENTS.find(event=>event.id === id);
-    }
-    saveEvent(event){
-        event.id = 999;
-        event.sessions = [];
-        EVENTS.push(event);
-    }
-    updateEvent(event){
-        let index = EVENTS.findIndex(x=>x.id == event.id);
-        EVENTS[index] = event;
-    }
-    searchSessions(searchTerm:string){
-      let term = searchTerm.toLocaleLowerCase();
-      let results:any[] = [];
-      results = EVENTS.map(event => event.sessions.filter(session => session.name.toLocaleLowerCase().includes(searchTerm))
-                                .map((session:any)=>{session.eventId = event.id; return session}))
-                         .reduce((acummulator, element)=>acummulator.concat(element));
-      let emitter = new EventEmitter(true);
-      setTimeout(()=>{
-        emitter.emit(results);
-      }, 100);
-      return emitter;
-    }
+  constructor(private http:Http){
+
+  }
+  getEvents():Observable<IEvent[]>{
+    return this.http.get('/api/events')
+                      .map((response:Response) => <IEvent[]>response.json())
+                      .catch(this.handleError)
+  }
+  getEvent(id:number):Observable<IEvent>{
+    return this.http.get('/api/events/'+id)
+                    .map((response:Response) => <IEvent>response.json())
+                    .catch(this.handleError)
+  }
+  saveEvent(event){
+      event.id = 999;
+      event.sessions = [];
+      EVENTS.push(event);
+  }
+  updateEvent(event){
+      let index = EVENTS.findIndex(x=>x.id == event.id);
+      EVENTS[index] = event;
+  }
+  searchSessions(searchTerm:string){
+    let term = searchTerm.toLocaleLowerCase();
+    let results:any[] = [];
+    results = EVENTS.map(event => event.sessions.filter(session => session.name.toLocaleLowerCase().includes(searchTerm))
+                              .map((session:any)=>{session.eventId = event.id; return session}))
+                        .reduce((acummulator, element)=>acummulator.concat(element));
+    let emitter = new EventEmitter(true);
+    setTimeout(()=>{
+      emitter.emit(results);
+    }, 100);
+    return emitter;
+  }
+  private handleError(error: Response){
+    return Observable.throw(error.statusText);
+  }
 }
 
 const EVENTS : IEvent[] = [
