@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operator/filter';
 import { IEvent, ISession } from '../shared/event.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
 import { EventService } from "../shared/event.service";
 
@@ -22,7 +22,7 @@ export class EventDetailsComponent implements OnInit{
         
     }
     ngOnInit(){
-        this.event = this.eventService.getEvent(+this.activatedRoute.snapshot.params['id']);
+        this.activatedRoute.params.forEach((params:Params) => {this.event = this.eventService.getEvent(+params['id']); this.addMode=false;});
     }
     addSession(){
         this.addMode = true;

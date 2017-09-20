@@ -1,4 +1,3 @@
-import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './user/auth.srevice';
 
@@ -11,7 +10,8 @@ import { appRoutes } from './routes';
 
 import {EventsAppComponent} from './events-app.component'
 import { NavBarComponent } from './nav/navbar.component';
-import { ToastrService } from './common/toastr.service';
+
+import { JQUERY_TOKEN, Toastr, CollapsibleWellComponent, SimpleModalComponent, ModalTriggerDirective } from './common/index';
 
 import {
     EventsListComponent, 
@@ -23,18 +23,58 @@ import {
     CreateEventComponent,
     CreateSessionComponent,
     SessionListComponent,
-    DurationPipe
+    DurationPipe,
+    UpvoteComponent,
+    VoterService,
+    LocationValidatorDirective
 } from './events/index'
 
+declare let toastr:Toastr;
+declare let jQuery:Object;
+
 @NgModule({
-    imports:[BrowserModule, RouterModule.forRoot(appRoutes), FormsModule, ReactiveFormsModule],
-    declarations:[EventsAppComponent, EventsListComponent, EventThumbnailComponent, NavBarComponent, EventDetailsComponent, CreateEventComponent, 
-        Error404Component, CreateSessionComponent, SessionListComponent, CollapsibleWellComponent, DurationPipe],
-    providers : [EventService, ToastrService, EventRouteActivator, EventListResolver, AuthService,
+    imports: [
+        BrowserModule, 
+        RouterModule.forRoot(appRoutes), 
+        FormsModule, 
+        ReactiveFormsModule
+    ],
+    declarations: [
+        EventsAppComponent,
+        EventsListComponent,
+        EventThumbnailComponent, 
+        NavBarComponent, 
+        EventDetailsComponent, 
+        CreateEventComponent, 
+        Error404Component, 
+        CreateSessionComponent, 
+        SessionListComponent, 
+        CollapsibleWellComponent, 
+        DurationPipe, 
+        SimpleModalComponent, 
+        ModalTriggerDirective,
+        UpvoteComponent,
+        LocationValidatorDirective
+    ],
+    providers: [
+        EventService, 
+        EventRouteActivator, 
+        EventListResolver, 
+        AuthService,
+        VoterService,
         { 
-            provide:'canDeactivateCreateEvent', 
+            provide: 'canDeactivateCreateEvent', 
             useValue: checkDirtyState 
-        } ],
+        },
+        {
+            provide:Toastr,
+            useValue:toastr  
+        },
+        {
+            provide:JQUERY_TOKEN,
+            useValue:jQuery   
+        } 
+    ],
     bootstrap: [EventsAppComponent]
 })
 

@@ -1,3 +1,5 @@
+import { VoterService } from './voter.service';
+import { AuthService } from '../../user/auth.srevice';
 import { filter } from 'rxjs/operator/filter';
 import { ISession } from '../index';
 import { Component, Input, OnChanges } from '@angular/core';
@@ -12,9 +14,13 @@ export class SessionListComponent implements OnChanges{
     @Input() filterBy:string;
     @Input() sortBy:string;
     visibleSessions:ISession[];
+    constructor(private authService:AuthService, private voterService:VoterService){
+        
+    }
     ngOnChanges(){
         if(this.sessions){
             this.filterSessions(this.filterBy);
+            this.sortBy === 'names' ? this.visibleSessions.sort(sortByNameAsc) : this.visibleSessions.sort(sortByVotesDesc);
         }
     }
     filterSessions(filter:string){
@@ -24,7 +30,20 @@ export class SessionListComponent implements OnChanges{
         else{
             this.visibleSessions = this.sessions.filter(session => session.level.toLocaleLowerCase() === filter);
         }
-        this.sortBy === 'names' ? this.visibleSessions.sort(sortByNameAsc) : this.visibleSessions.sort(sortByVotesDesc)
+    }
+    toggleVote(session:ISession){
+        if(this.userHasVoted(session)){
+            this.voterService.deleteVoter(session, this.authService.currentUser.userName);
+        }
+        else{
+            this.voterService.addVoter(session, this.authService.currentUser.userName);
+        }
+        if(this.sortBy==='votes'){
+            this.visibleSessions.sort(sortByVotesDesc);
+        }
+    }
+    userHasVoted(session:ISession):boolean{
+        return this.voterService.userHasVoted(session, this.authService.currentUser.userName);
     }
 }
 
