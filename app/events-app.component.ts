@@ -1,3 +1,4 @@
+import { AuthService } from './user/auth.srevice';
 import {Component} from '@angular/core'
 
 @Component({
@@ -8,5 +9,7 @@ import {Component} from '@angular/core'
     `
 })
 export class EventsAppComponent{
-        
+    constructor(private authService:AuthService){
+        authService.checkAuthenticationStatus();
+    }
 }

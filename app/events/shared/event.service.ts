@@ -1,50 +1,39 @@
-import { error } from 'util';
-import { Http, Response } from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { IEvent, ISession } from './event.model';
 import { Observable, Subject } from 'rxjs/Rx';
 import { EventEmitter, Injectable } from '@angular/core';
+import { HttpErrorHandlerService } from '../../common/index';
 
 
 
 @Injectable()
 export class EventService {
-  constructor(private http:Http){
+  constructor(private http:Http, private httpErrorHandler: HttpErrorHandlerService){
 
   }
   getEvents():Observable<IEvent[]>{
     return this.http.get('/api/events')
                       .map((response:Response) => <IEvent[]>response.json())
-                      .catch(this.handleError)
+                      .catch(this.httpErrorHandler.handleError)
   }
   getEvent(id:number):Observable<IEvent>{
     return this.http.get('/api/events/'+id)
-                    .map((response:Response) => <IEvent>response.json())
-                    .catch(this.handleError)
+                    .map((response: Response) => <IEvent>response.json())
+                    .catch(this.httpErrorHandler.handleError)
   }
-  saveEvent(event){
-      event.id = 999;
-      event.sessions = [];
-      EVENTS.push(event);
-  }
-  updateEvent(event){
-      let index = EVENTS.findIndex(x=>x.id == event.id);
-      EVENTS[index] = event;
+  saveEvent(event): Observable<IEvent>{
+    let headers = new Headers({'Content-Type':'application/json'});
+    let options = new RequestOptions({headers:headers});
+    return this.http.post('/api/events', JSON.stringify(event), options)
+                        .map((response: Response) => response.json())
+                        .catch(this.httpErrorHandler.handleError);
   }
   searchSessions(searchTerm:string){
-    let term = searchTerm.toLocaleLowerCase();
-    let results:any[] = [];
-    results = EVENTS.map(event => event.sessions.filter(session => session.name.toLocaleLowerCase().includes(searchTerm))
-                              .map((session:any)=>{session.eventId = event.id; return session}))
-                        .reduce((acummulator, element)=>acummulator.concat(element));
-    let emitter = new EventEmitter(true);
-    setTimeout(()=>{
-      emitter.emit(results);
-    }, 100);
-    return emitter;
+    return this.http.get('/api/sessions/search?search='+ searchTerm)
+      .map((response:Response) => response.json())
+      .catch(this.httpErrorHandler.handleError)
   }
-  private handleError(error: Response){
-    return Observable.throw(error.statusText);
-  }
+  
 }
 
 const EVENTS : IEvent[] = [

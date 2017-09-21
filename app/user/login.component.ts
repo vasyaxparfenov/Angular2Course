@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
     `]
 })
 export class LoginComponent{
+    loginInvalid: boolean = false;
     constructor(private authService:AuthService, private router:Router){
 
     }
@@ -15,8 +16,16 @@ export class LoginComponent{
         this.router.navigate(['/events']);
     }
     login(formValues){
-        this.authService.loginUser(formValues.userName, formValues.password);
-        this.navigateToEventsPage();
+        this.authService.loginUser(formValues.userName, formValues.password)
+        .subscribe(response => {
+            if(!response){
+                this.loginInvalid = true;
+            }
+            else{
+                this.navigateToEventsPage();
+            }
+        });
+        
     }
     cancel(){
         this.navigateToEventsPage();

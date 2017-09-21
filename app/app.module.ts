@@ -12,7 +12,15 @@ import { appRoutes } from './routes';
 import {EventsAppComponent} from './events-app.component'
 import { NavBarComponent } from './nav/navbar.component';
 
-import { JQUERY_TOKEN, Toastr, CollapsibleWellComponent, SimpleModalComponent, ModalTriggerDirective } from './common/index';
+import { 
+    JQUERY_TOKEN, 
+    Toastr, 
+    CollapsibleWellComponent,
+    SimpleModalComponent, 
+    ModalTriggerDirective,
+    HttpErrorHandlerService 
+} from './common/index';
+
 
 import {
     EventsListComponent, 
@@ -27,7 +35,8 @@ import {
     DurationPipe,
     UpvoteComponent,
     VoterService,
-    LocationValidatorDirective
+    LocationValidatorDirective,
+    EventResolver
 } from './events/index'
 
 declare let toastr:Toastr;
@@ -64,6 +73,8 @@ declare let jQuery:Object;
         EventListResolver, 
         AuthService,
         VoterService,
+        EventResolver,
+        HttpErrorHandlerService,
         { 
             provide: 'canDeactivateCreateEvent', 
             useValue: checkDirtyState 

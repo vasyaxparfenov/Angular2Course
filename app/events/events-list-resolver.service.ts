@@ -9,6 +9,7 @@ export class EventListResolver implements Resolve<IEvent[]>{
 
     }
     resolve(){
+        console.log('EventListResolver');
         return this.eventService.getEvents();
     }
 }
