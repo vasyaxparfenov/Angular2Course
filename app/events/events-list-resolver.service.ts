@@ -1,15 +1,14 @@
-import { EventService } from './shared/event.service';
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
 import { IEvent } from './index';
+import { EventService } from './shared/event.service';
 
 @Injectable()
 export class EventListResolver implements Resolve<IEvent[]>{
-    constructor(private eventService:EventService){
+    constructor(private eventService: EventService){
 
     }
-    resolve(){
-        console.log('EventListResolver');
+    public resolve(){
         return this.eventService.getEvents();
     }
 }

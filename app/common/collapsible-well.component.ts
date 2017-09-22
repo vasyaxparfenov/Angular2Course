@@ -1,5 +1,5 @@
-import * as console from 'console';
 import { Component } from '@angular/core';
+import * as console from 'console';
 
 @Component({
     selector:'collapsible-well',
@@ -10,11 +10,11 @@ import { Component } from '@angular/core';
             </h4>
             <ng-content *ngIf="visible" select="[well-body]"></ng-content>        
         </div>
-    `
+    `,
 })
 export class CollapsibleWellComponent{
-    visible:boolean = false;
-    toggleContent(){
+    public visible: boolean = false;
+    public toggleContent(){
         this.visible = !this.visible;
     }
 }

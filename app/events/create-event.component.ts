@@ -1,6 +1,6 @@
-import { IEvent } from './shared/event.model';
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IEvent } from './shared/event.model';
 import { EventService } from './shared/index';
 
 @Component({
@@ -12,24 +12,24 @@ import { EventService } from './shared/index';
     .error ::-moz-placeholder  {color: #999}
     .error :-moz-placeholder  {color: #999}
     .error :ms-input-placeholder  {color: #999}
-`]
+`],
 })
 export class CreateEventComponent implements OnInit{
-    isDirty:boolean = true;
-    constructor(private router:Router, private eventService:EventService){
+    public isDirty: boolean = true;
+    constructor(private router: Router, private eventService: EventService){
 
     }
-    ngOnInit(){
+    public ngOnInit(){
         
     }
-    saveEvent(formValues){
-        this.eventService.saveEvent(formValues).subscribe(event => {
+    public saveEvent(formValues){
+        this.eventService.saveEvent(formValues).subscribe((event) => {
             this.isDirty = false;
             this.router.navigate(['/events']);
         });
         
     }
-    cancel(){
+    public cancel(){
         this.router.navigate(['/events']);
     }
 

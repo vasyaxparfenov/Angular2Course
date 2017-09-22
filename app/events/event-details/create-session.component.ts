@@ -1,7 +1,7 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { selector } from 'rxjs/operator/multicast';
 import { ISession, restricredWords } from '../index.js';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
     selector:'create-session',
@@ -13,19 +13,17 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     .error ::-moz-placeholder  {color: #999}
     .error :-moz-placeholder  {color: #999}
     .error :ms-input-placeholder  {color: #999}
-`]
+`],
 })
 export class CreateSessionComponent implements OnInit{
-   @Output() saveNewSession = new EventEmitter();
-   @Output() cancelAddSession = new EventEmitter();
-   name:FormControl;
-   presenter:FormControl;
-   duration:FormControl;
-   level:FormControl;
-   abstract:FormControl;
-   newSessionForm:FormGroup;
-
-
+   @Output() public saveNewSession = new EventEmitter();
+   @Output() public cancelAddSession = new EventEmitter();
+   public name: FormControl;
+   public presenter: FormControl;
+   public duration: FormControl;
+   public level: FormControl;
+   public abstract: FormControl;
+   public newSessionForm: FormGroup;
 
     public ngOnInit(): void {
         this.name = new FormControl('', Validators.required);
@@ -39,23 +37,23 @@ export class CreateSessionComponent implements OnInit{
             presenter:this.presenter,
             duration:this.duration,
             level:this.level,
-            abstract:this.abstract
-        })
+            abstract:this.abstract,
+        });
     }
 
-    seveSession(formValues){
-        let session:ISession = {
+    public seveSession(formValues){
+        const session: ISession = {
             id:undefined,
             name:formValues.name,
             presenter:formValues.presenter,
             duration:+formValues.duration,
             level:formValues.level,
             abstract:formValues.abstract,
-            voters:[]
+            voters:[],
         };
         this.saveNewSession.emit(session);
     }
-    cancel(){
+    public cancel(){
         this.cancelAddSession.emit();
     }
     

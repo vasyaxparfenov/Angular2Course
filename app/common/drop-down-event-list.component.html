@@ -1,0 +1,4 @@
+
+<li *ngFor="let event of eventList">
+    <a [routerLink]="['/events/', event?.id]">{{event?.name}}</a>
+</li>

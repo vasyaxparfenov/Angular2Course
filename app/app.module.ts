@@ -1,105 +1,105 @@
-import { HttpModule } from '@angular/http';
+import './rxjs-extensions';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { DropDownEventListComponent } from './common/drop-down-event-list.component';
 import { AuthService } from './user/auth.srevice';
 
-
-import { Error404Component } from './error/404.components';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { NgModule } from '@angular/core'
-import { BrowserModule } from '@angular/platform-browser'
+import { Error404Component } from './error/404.components';
 import { appRoutes } from './routes';
 
-import {EventsAppComponent} from './events-app.component'
+import {EventsAppComponent} from './events-app.component';
 import { NavBarComponent } from './nav/navbar.component';
 
-import { 
-    JQUERY_TOKEN, 
-    Toastr, 
+import {
     CollapsibleWellComponent,
-    SimpleModalComponent, 
+    HttpErrorHandlerService,
+    JQUERY_TOKEN,
     ModalTriggerDirective,
-    HttpErrorHandlerService 
+    SimpleModalComponent,
+    Toastr,
 } from './common/index';
 
-
 import {
-    EventsListComponent, 
-    EventThumbnailComponent, 
-    EventListResolver, 
-    EventDetailsComponent, 
-    EventRouteActivator, 
-    EventService, 
     CreateEventComponent,
     CreateSessionComponent,
-    SessionListComponent,
     DurationPipe,
+    EventDetailsComponent,
+    EventListResolver,
+    EventResolver,
+    EventRouteActivator,
+    EventService,
+    EventsListComponent,
+    EventThumbnailComponent,
+    LocationValidatorDirective,
+    SessionListComponent,
     UpvoteComponent,
     VoterService,
-    LocationValidatorDirective,
-    EventResolver
-} from './events/index'
+} from './events/index';
 
-declare let toastr:Toastr;
-declare let jQuery:Object;
+declare let toastr: Toastr;
+declare let jQuery: any;
 
 @NgModule({
     imports: [
-        BrowserModule, 
-        RouterModule.forRoot(appRoutes), 
-        FormsModule, 
+        BrowserModule,
+        RouterModule.forRoot(appRoutes),
+        FormsModule,
         ReactiveFormsModule,
-        HttpModule
+        HttpModule,
     ],
     declarations: [
         EventsAppComponent,
         EventsListComponent,
-        EventThumbnailComponent, 
-        NavBarComponent, 
-        EventDetailsComponent, 
-        CreateEventComponent, 
-        Error404Component, 
-        CreateSessionComponent, 
-        SessionListComponent, 
-        CollapsibleWellComponent, 
-        DurationPipe, 
-        SimpleModalComponent, 
+        EventThumbnailComponent,
+        NavBarComponent,
+        EventDetailsComponent,
+        CreateEventComponent,
+        Error404Component,
+        CreateSessionComponent,
+        SessionListComponent,
+        CollapsibleWellComponent,
+        DurationPipe,
+        SimpleModalComponent,
         ModalTriggerDirective,
         UpvoteComponent,
-        LocationValidatorDirective
+        LocationValidatorDirective,
+        DropDownEventListComponent,
     ],
     providers: [
-        EventService, 
-        EventRouteActivator, 
-        EventListResolver, 
+        EventService,
+        EventRouteActivator,
+        EventListResolver,
         AuthService,
         VoterService,
         EventResolver,
         HttpErrorHandlerService,
-        { 
-            provide: 'canDeactivateCreateEvent', 
-            useValue: checkDirtyState 
+        {
+            provide: 'canDeactivateCreateEvent',
+            useValue: checkDirtyState,
         },
         {
             provide:Toastr,
-            useValue:toastr  
+            useValue:toastr,
         },
         {
             provide:JQUERY_TOKEN,
-            useValue:jQuery   
-        } 
+            useValue:jQuery,
+        },
     ],
-    bootstrap: [EventsAppComponent]
+    bootstrap: [EventsAppComponent],
 })
 
 export class AppModule{
 
 }
 
-function checkDirtyState(component:CreateEventComponent){
+function checkDirtyState(component: CreateEventComponent){
     if(component.isDirty){
-        return window.confirm("You haven't saved this event, do you really want to cancel?")
+        return window.confirm('You haven\'t saved this event, do you really want to cancel?');
     }
     return true;
 }
-
-

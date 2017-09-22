@@ -1,22 +1,21 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login.component';
 import { ProfileComponent } from './profile.component';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { NgModule } from "@angular/core";
 import { userRoutes } from './user.routes';
-
 
 @NgModule({
     imports :[
         CommonModule,
         RouterModule.forChild(userRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     declarations:[ProfileComponent, LoginComponent],
     providers:[],
-    bootstrap:[]
+    bootstrap:[],
 })
 export class UserModule{
 
